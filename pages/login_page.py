@@ -1,12 +1,13 @@
 from playwright.sync_api import Page
+from pages.base_page import Basepage
 
-class LoginPage:
+class LoginPage(Basepage):
 
     def __init__(self,page:Page):
-        self.page=page
+        super().__init__(page)
 
-    def navigate(self):
-        self.page.goto("https://www.saucedemo.com/")
+    def open(self):
+        self.navigate("https://www.saucedemo.com/")
 
     def login(self,username,password):
         self.page.get_by_placeholder("Username").fill(username)
