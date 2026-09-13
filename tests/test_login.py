@@ -2,11 +2,13 @@ from playwright.sync_api import expect
 from pages.login_page import LoginPage
 from pages.product_page import ProductsPage
 from pages.cart_page import CartPage
+from pages.checkout_page import CheckoutPage
 def test_login_with_valid_credentials(page):
     product="Sauce Labs Bolt T-Shirt"
     login_page=LoginPage(page)
     product_page=ProductsPage(page)
     cart_page=CartPage(page)
+    checkout_page=CheckoutPage(page)
     login_page.open()
     login_page.login("standard_user","secret_sauce")
     expect(page).to_have_url("https://www.saucedemo.com/inventory.html")
@@ -20,7 +22,15 @@ def test_login_with_valid_credentials(page):
     ).to_be_visible()
     cart_page.open()
     cart_page.get_cart_item_count()
+    assert cart_page.get_cart_item_count() == 1
     cart_page.verify_product(product)
+    checkout_page.open()
+    checkout_page.verify_checkout_page()
+    checkout_page.enter_customer_details("Prem",
+        "Kumar",
+        "500001")
+    checkout_page.continue_checkout()
+    expect(page.locator(".title")).to_have_text("Checkout: Overview")
 
     
     
