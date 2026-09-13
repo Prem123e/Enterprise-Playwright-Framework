@@ -1,5 +1,6 @@
 from playwright.sync_api import Page
 from pages.base_page import BasePage
+from config.config import BASE_URL
 
 class LoginPage(BasePage):
 
@@ -7,7 +8,7 @@ class LoginPage(BasePage):
         super().__init__(page)
 
     def open(self):
-        self.navigate("https://www.saucedemo.com/")
+        self.navigate(BASE_URL)
 
     def login(self,username:str,password:str):
         self.page.get_by_placeholder("Username").fill(username)

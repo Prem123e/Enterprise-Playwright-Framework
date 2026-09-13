@@ -5,6 +5,7 @@ from pages.product_page import ProductsPage
 from pages.cart_page import CartPage
 from pages.checkout_page import CheckoutPage
 from utils.data_reader import load_test_data
+from config.config import BASE_URL
 def test_login_with_valid_credentials(page):
     data = load_test_data(
     os.path.join("data", "test_data.json")
@@ -21,7 +22,8 @@ def test_login_with_valid_credentials(page):
         login_data["username"],
         login_data["password"]
     )
-    expect(page).to_have_url("https://www.saucedemo.com/inventory.html")
+    expect(page).to_have_url(
+    f"{BASE_URL}/inventory.html")
     expect(page.locator(".title")).to_have_text("Products")
     product_count=product_page.get_product_count()
     print(product_count)
