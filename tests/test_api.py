@@ -72,3 +72,32 @@ def test_delete_post():
     assert response.status_code == 200
 
     print(response.status_code)
+
+def test_get_posts_by_user():
+    client=APIClient()
+    response=client.get(
+        "https://jsonplaceholder.typicode.com/posts",
+        params={"userId":1}
+    )
+    assert response.status_code == 200
+
+    response_data = response.json()
+
+    assert len(response_data) > 0
+
+    for post in response_data:
+        assert post["userId"] == 1
+
+    print(response_data)
+
+def test_get_post_with_headers():
+    client=APIClient()
+    headers={"Accept":"application/json"}
+    response=client.get("https://jsonplaceholder.typicode.com/posts/1",headers=headers)
+    assert response.status_code == 200
+
+    response_data = response.json()
+
+    assert response_data["id"] == 1
+
+    print(response_data)
