@@ -1,38 +1,40 @@
 import requests
-
+from config.config import API_BASE_URL
 
 class APIClient:
 
-    def get(self, url: str, params=None, headers=None):
+    def __init__(self):
+        self.base_url=API_BASE_URL
+    def get(self, endpoint: str, params=None, headers=None):
         return requests.get(
-            url,
+            f"{self.base_url}{endpoint}",
             params=params,
             headers=headers
         )
 
-    def post(self, url: str, data: dict, headers=None):
+    def post(self, endpoint: str, data: dict, headers=None):
         return requests.post(
-            url,
+            f"{self.base_url}{endpoint}",
             json=data,
             headers=headers
         )
 
-    def put(self, url: str, data: dict, headers=None):
+    def put(self, endpoint: str, data: dict, headers=None):
         return requests.put(
-            url,
+            f"{self.base_url}{endpoint}",
             json=data,
             headers=headers
         )
 
-    def patch(self, url: str, data: dict, headers=None):
+    def patch(self, endpoint: str, data: dict, headers=None):
         return requests.patch(
-            url,
+            f"{self.base_url}{endpoint}",
             json=data,
             headers=headers
         )
 
-    def delete(self, url: str, headers=None):
+    def delete(self, endpoint: str, headers=None):
         return requests.delete(
-            url,
+            f"{self.base_url}{endpoint}",
             headers=headers
         )
