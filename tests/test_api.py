@@ -3,14 +3,16 @@ from utils.api_assertions import (
     assert_json_field
 )
 from config.endpoints import SINGLE_POST, POSTS 
+from utils.schema_validator import validate_post_schema
 
 def test_get_single_post(api_client):
 
     response = api_client.get(SINGLE_POST)
     assert_status_code(response, 200)
     assert_json_field(response, "id", 1)
-
-    print(response.json())
+    response_data=response.json()
+    validate_post_schema(response_data)
+    print(response_data)
 
 
 def test_create_post(api_client):
