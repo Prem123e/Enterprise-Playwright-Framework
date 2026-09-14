@@ -1,6 +1,11 @@
-def validate_post_schema(response_data: dict):
+import json
 
-    assert isinstance(response_data["userId"], int)
-    assert isinstance(response_data["id"], int)
-    assert isinstance(response_data["title"], str)
-    assert isinstance(response_data["body"], str)
+from jsonschema import validate
+
+def validate_schema(response_data:dict,schema_file:str):
+    with open(schema_file,"r") as  file:
+        schema=json.load(file)
+    validate(
+        instance=response_data,
+        schema=schema
+    )
