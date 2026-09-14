@@ -167,3 +167,20 @@ def test_get_post_with_headers(api_client):
     assert_json_field(response, "id", 1)
 
     print(response.json())
+
+def test_request_with_custom_header(api_client):
+
+        headers = {
+        "Accept": "application/json",
+        "X-Test-Client": "Enterprise-Playwright"
+        }
+
+        response = api_client.get(
+            SINGLE_POST,
+            headers=headers
+        )
+
+        assert_status_code(response, 200)
+        assert_json_field(response, "id", 1)
+
+        print(response.request.headers)
