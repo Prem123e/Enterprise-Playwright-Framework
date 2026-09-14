@@ -1,3 +1,7 @@
+from utils.api_assertions import (
+    assert_status_code,
+    assert_json_field
+)
 from api.api_client import APIClient
 def test_get_single_post():
     client = APIClient()
@@ -5,12 +9,9 @@ def test_get_single_post():
         "https://jsonplaceholder.typicode.com/posts/1"
     )
 
-    assert response.status_code == 200
-    response_data = response.json()
-
-    assert response_data["id"] == 1
-
-    print(response_data)
+    assert_status_code(response, 200)
+    assert_json_field(response, "id", 1)
+    print(response.json())
 
 def test_create_post():
     client = APIClient()
@@ -23,16 +24,25 @@ def test_create_post():
         "https://jsonplaceholder.typicode.com/posts",
         original_payload
     )
+    assert_status_code(response,201)
+    assert_json_field(
+    response,
+    "title",
+    "API Automation"
+    )
 
-    assert response.status_code == 201
+    assert_json_field(
+    response,
+    "body",
+    "Learning POST requests"
+    )
 
-    response_data = response.json()
-
-    assert response_data["title"] == "API Automation"
-    assert response_data["body"] == "Learning POST requests"
-    assert response_data["userId"] == 1
-
-    print(response_data)
+    assert_json_field(
+    response,
+    "userId",
+    1
+    )
+    print(response.json())
 
 def test_update_post_with_put():
     client = APIClient()
@@ -46,12 +56,23 @@ def test_update_post_with_put():
         "https://jsonplaceholder.typicode.com/posts/1",
         payload
     )
-    assert response.status_code== 200
-    response_data=response.json()
-    assert response_data["id"] == 1
-    assert response_data["title"] == "Updated API Automation"
-    assert response_data["body"] == "Updated using PUT"
-    print(response_data)
+    assert_status_code(response, 200)
+    assert_json_field(
+        response,
+        "id",
+        1
+    )
+    assert_json_field(
+        response,
+        "title",
+        "Updated API Automation"
+    )
+    assert_json_field(
+        response,
+        "body",
+        "Updated using PUT"
+    )
+    print(response.json())
 
 def test_update_post_with_patch():
     client = APIClient()
@@ -59,17 +80,24 @@ def test_update_post_with_patch():
         "title": "Partially Updated Title"
     }
     response=client.patch("https://jsonplaceholder.typicode.com/posts/1",payload)
-    assert response.status_code== 200
-    response_data=response.json()
-    assert response_data["id"] == 1
-    assert response_data["title"] == "Partially Updated Title"
+    assert_status_code(response,200)
+    assert_json_field(
+        response,
+        "id",
+        1
+    )
+    assert_json_field(
+        response,
+        "title",
+        "Partially Updated Title"
+    )
 
-    print(response_data)
+    print(response.json())
 
 def test_delete_post():
     client = APIClient()
     response=client.delete("https://jsonplaceholder.typicode.com/posts/1")
-    assert response.status_code == 200
+    assert_status_code(response,200)
 
     print(response.status_code)
 
@@ -79,7 +107,7 @@ def test_get_posts_by_user():
         "https://jsonplaceholder.typicode.com/posts",
         params={"userId":1}
     )
-    assert response.status_code == 200
+    assert_status_code(response,200)
 
     response_data = response.json()
 
@@ -94,10 +122,11 @@ def test_get_post_with_headers():
     client=APIClient()
     headers={"Accept":"application/json"}
     response=client.get("https://jsonplaceholder.typicode.com/posts/1",headers=headers)
-    assert response.status_code == 200
+    assert_status_code(response,200)
+    assert_json_field(
+        response,
+        "id",
+        1
+    )
 
-    response_data = response.json()
-
-    assert response_data["id"] == 1
-
-    print(response_data)
+    print(response.json())
