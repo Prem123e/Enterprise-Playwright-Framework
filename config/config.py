@@ -7,3 +7,4 @@ load_dotenv()
 
 
 BASE_URL = os.getenv("BASE_URL")
+API_TOKEN = os.getenv("API_TOKEN")
