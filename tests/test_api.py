@@ -2,11 +2,11 @@ from utils.api_assertions import (
     assert_status_code,
     assert_json_field
 )
-
+from config.endpoints import SINGLE_POST, POSTS 
 
 def test_get_single_post(api_client):
 
-    response = api_client.get("/posts/1")
+    response = api_client.get(SINGLE_POST)
     assert_status_code(response, 200)
     assert_json_field(response, "id", 1)
 
@@ -22,7 +22,7 @@ def test_create_post(api_client):
     }
 
     response = api_client.post(
-    "/posts",
+    POSTS,
     payload
     )
     assert_status_code(response, 201)
@@ -58,7 +58,7 @@ def test_update_post_with_put(api_client):
     }
 
     response = api_client.put(
-    "/posts/1",
+    SINGLE_POST,
     payload
     )
 
@@ -88,7 +88,7 @@ def test_update_post_with_patch(api_client):
     }
 
     response = api_client.patch(
-    "/posts/1",
+    SINGLE_POST,
     payload
     )
 
@@ -108,7 +108,7 @@ def test_update_post_with_patch(api_client):
 def test_delete_post(api_client):
 
     response = api_client.delete(
-    "/posts/1"
+    SINGLE_POST
     )
 
     assert_status_code(response, 200)
@@ -119,7 +119,7 @@ def test_delete_post(api_client):
 def test_get_posts_by_user(api_client):
 
     response = api_client.get(
-    "/posts",
+    POSTS,
     params={"userId": 1}
     )
 
@@ -142,7 +142,7 @@ def test_get_post_with_headers(api_client):
     }
 
     response = api_client.get(
-    "/posts/1",
+    SINGLE_POST,
     headers=headers
     )
 
