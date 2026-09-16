@@ -31,8 +31,8 @@ def test_authenticated_api_request():
     client = APIClient()
 
     response = client.get(
-        "https://jsonplaceholder.typicode.com/posts/1",
-        headers=headers
+    "/posts/1",
+    headers=headers
     )
 
     assert_status_code(response, 200)
